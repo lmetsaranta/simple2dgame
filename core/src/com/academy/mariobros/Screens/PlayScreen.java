@@ -1,10 +1,7 @@
 package com.academy.mariobros.Screens;
 
-import com.academy.mariobros.Items.Sword;
+import com.academy.mariobros.Items.*;
 import com.academy.mariobros.Scenes.Controller;
-import com.academy.mariobros.Items.Item;
-import com.academy.mariobros.Items.ItemDef;
-import com.academy.mariobros.Items.Mushroom;
 import com.academy.mariobros.MarioBros;
 import com.academy.mariobros.Scenes.GestureController;
 import com.academy.mariobros.Scenes.Hud;
@@ -79,7 +76,7 @@ public class PlayScreen implements Screen {
         this.maploader = new TmxMapLoader();
         this.map1 = new TiledMap();
         this.map2 = new TiledMap();
-        map1 = maploader.load("originalmap.tmx");
+        map1 = maploader.load("firstawmap.tmx");
         map2 = maploader.load("originalmap2.tmx");
         maps.add(map1);
         maps.add(map2);
@@ -102,8 +99,8 @@ public class PlayScreen implements Screen {
         world.setContactListener(new WorldContactListener());
 
         music = MarioBros.manager.get("audio/music/maintheme.mp3",Music.class);
-        music.setLooping(true);
-        music.play();
+//        music.setLooping(true);
+//        music.play();
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
@@ -123,6 +120,8 @@ public class PlayScreen implements Screen {
                 items.add(new Mushroom(this, idef.position.x, idef.position.y));
             } else if(idef.type == Sword.class){
                 items.add(new Sword(this, idef.position.x, idef.position.y));
+            } else if(idef.type == Suitcase.class){
+                items.add(new Suitcase(this, idef.position.x, idef.position.y));
             }
         }
     }

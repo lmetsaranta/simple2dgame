@@ -5,42 +5,56 @@ filter: Nearest,Nearest
 repeat: none
 awmieslapinakyva
   rotate: false
-  xy: 1, 37
+  xy: 1, 46
+  size: 500, 17
+  orig: 500, 17
+  offset: 0, 0
+  index: -1
+characters
+  rotate: false
+  xy: 1, 27
   size: 500, 17
   orig: 500, 17
   offset: 0, 0
   index: -1
 bigawmieslapinakyva
   rotate: false
-  xy: 1, 1
+  xy: 503, 29
   size: 339, 34
   orig: 339, 34
   offset: 0, 0
   index: -1
 turtle
   rotate: false
-  xy: 342, 11
+  xy: 1, 1
   size: 96, 24
   orig: 96, 24
   offset: 0, 0
   index: -1
+treasures
+  rotate: false
+  xy: 99, 9
+  size: 200, 16
+  orig: 200, 16
+  offset: 0, 0
+  index: -1
 sword
   rotate: false
-  xy: 503, 4
+  xy: 844, 13
   size: 100, 50
   orig: 100, 50
   offset: 0, 0
   index: -1
 goomba
   rotate: false
-  xy: 605, 38
+  xy: 946, 47
   size: 48, 16
   orig: 48, 16
   offset: 0, 0
   index: -1
 mushroom
   rotate: false
-  xy: 440, 19
+  xy: 301, 9
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

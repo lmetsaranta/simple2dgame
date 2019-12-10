@@ -2,6 +2,7 @@ package com.academy.mariobros.Sprites;
 
 import com.academy.mariobros.Items.ItemDef;
 import com.academy.mariobros.Items.Mushroom;
+import com.academy.mariobros.Items.Suitcase;
 import com.academy.mariobros.Items.Sword;
 import com.academy.mariobros.MarioBros;
 import com.academy.mariobros.Scenes.Hud;
@@ -14,11 +15,11 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Coin extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;
-    private final int BLANC_COIN = 28;
+    private final int BLANC_COIN = 6;
 
     public Coin(PlayScreen screen, MapObject object, TiledMap tiledMap) {
         super(screen, object, tiledMap);
-        tileSet = map.getTileSets().getTileSet("mario");
+        tileSet = map.getTileSets().getTileSet("awelementit");
         fixture.setUserData(this);
         setCategoryFilter(MarioBros.COIN_BIT);
 
@@ -35,6 +36,10 @@ public class Coin extends InteractiveTileObject {
             getCell().setTile(tileSet.getTile(BLANC_COIN));
             } else if (object.getProperties().containsKey("sword")){
             screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x - 8 / MarioBros.PPM, body.getPosition().y + 8 / MarioBros.PPM), Sword.class));
+            Hud.addScore(200);
+            getCell().setTile(tileSet.getTile(BLANC_COIN));
+        } else if(object.getProperties().containsKey("suitcase")){
+            screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x - 7.9f / MarioBros.PPM, body.getPosition().y + 8 / MarioBros.PPM), Suitcase.class));
             Hud.addScore(200);
             getCell().setTile(tileSet.getTile(BLANC_COIN));
         } else {

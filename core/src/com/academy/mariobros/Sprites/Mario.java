@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-
 public class Mario extends Sprite {
     private boolean timeToDefineBigMario;
     private boolean timeToRedefineMario;
@@ -24,6 +22,7 @@ public class Mario extends Sprite {
     public boolean levelPassed;
 
     private boolean marioHasSword;
+    private boolean marioHasSuit;
 
     public enum State {FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, HITTING};
     public State previousState;
@@ -34,10 +33,13 @@ public class Mario extends Sprite {
 
     private TextureRegion marioStand;
     private TextureRegion marioStandWithSword;
+    private TextureRegion marioStandWithSuit;
     private Animation marioRun;
     private Animation marioRunWithSword;
+    private Animation marioRunWithSuit;
     private TextureRegion marioJump;
     private TextureRegion marioJumpWithSword;
+    private TextureRegion marioJumpWithSuit;
     private TextureRegion bigMarioStand;
     private Animation bigMarioRun;
     private TextureRegion bigMarioJump;
@@ -74,6 +76,14 @@ public class Mario extends Sprite {
         //clear frames for next animation sequence
         frames.clear();
 
+        //get animation for little mario to run with sword
+        for(int i = 0; i < 3; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("characters"), 119 + (i * 16), 0, 17, 16));
+        marioRunWithSuit = new Animation(0.1f, frames);
+
+        //clear frames for next animation sequence
+        frames.clear();
+
         for(int i = 1; i < 4; i++)
             frames.add(new TextureRegion(screen.getAtlas().findRegion("bigawmieslapinakyva"), i * 16 + 1, 0, 16, 32));
         bigMarioRun = new Animation(0.1f, frames);
@@ -90,10 +100,12 @@ public class Mario extends Sprite {
         //create texture region for little mario standing
         marioStand = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 0, 0, 16, 16);
         marioStandWithSword = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 112, 0, 19, 16);
+        marioStandWithSuit = new TextureRegion(screen.getAtlas().findRegion("characters"), 100, 0, 16, 16);
         marioHitWithSword = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 220, 0, 19, 17);
         bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("bigawmieslapinakyva"), 1, 0, 16, 32);
         marioJump = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 80, 0, 16, 16);
         marioJumpWithSword = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 191, 0, 16, 16);
+        marioJumpWithSuit = new TextureRegion(screen.getAtlas().findRegion("characters"), 170, 0, 16, 16);
         bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("bigawmieslapinakyva"), 81, 0, 16, 32);
         marioDead = new TextureRegion(screen.getAtlas().findRegion("awmieslapinakyva"), 96, 0, 16, 16);
 
@@ -109,6 +121,7 @@ public class Mario extends Sprite {
         marioIsDead = false;
         marioIsHitting = false;
         marioHasSword = false;
+        marioHasSuit = false;
         marioFallToDeath = false;
         timeToKillMario = false;
         levelPassed = false;
@@ -164,15 +177,15 @@ public class Mario extends Sprite {
                 marioIsHitting = false;
                 break;
             case JUMPING:
-                region = !marioIsBig && marioHasSword ? marioJumpWithSword : marioIsBig ? bigMarioJump : marioJump;
+                region = !marioHasSuit && !marioIsBig && marioHasSword ? marioJumpWithSword : !marioHasSuit && marioIsBig ? bigMarioJump : marioHasSuit ? marioJumpWithSuit : marioJump;
                 break;
             case RUNNING:
-                region = !marioIsBig && marioHasSword ? (TextureRegion) marioRunWithSword.getKeyFrame(stateTime, true) : marioIsBig ? (TextureRegion) bigMarioRun.getKeyFrame(stateTime, true) : (TextureRegion) marioRun.getKeyFrame(stateTime, true);
+                region = !marioHasSuit && !marioIsBig && marioHasSword ? (TextureRegion) marioRunWithSword.getKeyFrame(stateTime, true) : !marioHasSuit && marioIsBig ? (TextureRegion) bigMarioRun.getKeyFrame(stateTime, true) : marioHasSuit ? (TextureRegion) marioRunWithSuit.getKeyFrame(stateTime, true) : (TextureRegion) marioRun.getKeyFrame(stateTime, true);
                 break;
             case FALLING:
             case STANDING:
             default:
-                region = !marioIsBig && marioHasSword ? marioStandWithSword : marioIsBig ? bigMarioStand : marioStand;
+                region = !marioHasSuit && !marioIsBig && marioHasSword ? marioStandWithSword : marioIsBig && !marioHasSuit ? bigMarioStand : marioHasSuit ? marioStandWithSuit : marioStand;
                 break;
         }
 
@@ -355,7 +368,16 @@ public class Mario extends Sprite {
     public void getSword(){
         if(!marioHasSword){
             marioHasSword = true;
+            marioHasSuit = false;
             MarioBros.manager.get("audio/sounds/powerup.wav", Sound.class).play();
+        }
+    }
+
+    public void getSuit(){
+        if(!marioHasSuit){
+            marioHasSuit = true;
+            MarioBros.manager.get("audio/sounds/powerup.wav", Sound.class).play();
+
         }
     }
 
